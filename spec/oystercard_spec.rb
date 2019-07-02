@@ -3,6 +3,8 @@ require 'oystercard'
 describe Oystercard do
 
   let(:station){ double :station }
+  let(:entry_station) { double :station }
+  let(:exit_station) { double :station }
 
   it "has an initial balance of £0" do
     expect(subject.balance).to eq Oystercard::DEFAULT_BALANCE
