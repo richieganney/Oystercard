@@ -56,14 +56,23 @@ describe Oystercard do
     it "Ends a journey" do
       subject.top_up 5
       subject.touch_in("Kings Cross")
-      subject.touch_out
+      subject.touch_out station
       expect(subject.in_journey).to eq false
     end
 
     it 'deducts the fare from the balance (£1) after a journey' do
       subject.top_up 5
       subject.touch_in("Kings Cross")
-      expect{ subject.touch_out }.to change{ subject.balance }.by (-Oystercard::MINUMUM_CHARGE)
+      expect{ subject.touch_out station }.to change{ subject.balance }.by (-Oystercard::MINUMUM_CHARGE)
+    end
+  end
+
+  describe '#all_journeys' do
+    it "stores all journeys" do
+      subject.top_up 5
+      subject.touch_in "Kings Cross"
+      subject.touch_out "Hammersmith"
+      expect(subject.all_journeys).to eq ({"Kings Cross" => "Hammersmith"})
     end
   end
 

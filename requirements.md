@@ -4,7 +4,6 @@
 As a customer
 I want money on my card -->
 
-
 <!-- In order to keep using public transport
 As a customer
 I want to add money to my card -->
@@ -29,9 +28,9 @@ In order to pay for my journey
 As a customer
 I need to pay for my journey when it’s complete -->
 
-In order to pay for my journey
+<!-- In order to pay for my journey
 As a customer
-I need to know where I’ve travelled from
+I need to know where I’ve travelled from -->
 
 In order to know where I have been
 As a customer
