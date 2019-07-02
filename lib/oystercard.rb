@@ -1,5 +1,16 @@
 require 'pry'
 
+class Station 
+
+  attr_reader :name, :zone
+
+  def initialize(name, zone)
+    @name = name
+    @zone = zone
+  end
+
+end
+
 class Oystercard
 
   DEFAULT_BALANCE = 0
@@ -15,7 +26,6 @@ class Oystercard
     @entry_station = nil
     @exit_station = nil
     @all_journeys = []
-    @one_journey = []
   end
 
   def top_up(amount)
@@ -27,7 +37,7 @@ class Oystercard
 
   def touch_in(station)
     @entry_station = station
-    @one_journey << station
+    @all_journeys << station
     @balance < MINUMUM_BALANCE ? raise("Insufficient funds") : @in_journey = true 
   end
 
@@ -35,9 +45,13 @@ class Oystercard
     @exit_station = station
     deduct
     @in_journey = false
-    @one_journey << station
+    @all_journeys << station
     @exit_station = nil
     @entry_station = nil 
+  end
+
+  def all_journeys(num)
+    @all_journeys.each_slice(2).to_a[num -1]
   end
 
   private
@@ -56,4 +70,4 @@ class Oystercard
 
 end
 
-binding.pry
+# binding.pry
