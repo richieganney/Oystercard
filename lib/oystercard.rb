@@ -1,4 +1,6 @@
 require 'pry'
+require_relative 'station'
+require_relative 'journey'
 
 class Oystercard
 
@@ -7,11 +9,11 @@ class Oystercard
   MINUMUM_BALANCE = 1
   MINUMUM_CHARGE = 1
 
-  attr_reader :balance, :in_journey, :entry_station, :exit_station, :all_journeys, :one_journey
+  attr_reader :balance, :entry_station, :exit_station, :all_journeys, :one_journey
 
   def initialize
     @balance = DEFAULT_BALANCE
-    @in_journey = false
+    @journey = nil
     @entry_station = nil
     @exit_station = nil
     @all_journeys = []
@@ -26,9 +28,10 @@ class Oystercard
   end
 
   def touch_in(station)
+    @balance < MINUMUM_BALANCE ? raise("Insufficient funds") : @journey = Journey.new
+    @journey.start_journey
     @entry_station = station
     @one_journey = {station => @exit_station}
-    @balance < MINUMUM_BALANCE ? raise("Insufficient funds") : @in_journey = true 
   end
 
   def touch_out(station)
@@ -36,7 +39,8 @@ class Oystercard
     deduct
     @one_journey[@entry_station] = station
     @all_journeys << @one_journey
-    @in_journey = false
+    @journey.end_journey
+    @journey.store_journey
     # @entry_station = nil
   end
 

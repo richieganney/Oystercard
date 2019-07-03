@@ -39,7 +39,7 @@ describe Oystercard do
   describe '#touch_in' do
     it "Commences a journey" do
       subject.top_up 1
-      expect(subject.touch_in("Kings Cross")).to eq subject.in_journey
+      expect(subject.touch_in("Kings Cross")).to eq ({"Kings Cross"=>nil})
     end
 
     it 'raises an error if there are insufficient funds' do
@@ -52,42 +52,36 @@ describe Oystercard do
       expect(subject.entry_station).to eq "Kings Cross"
     end
 
+    # it 'initializes a journey instance and sets an entry station' do
+    #   station = double(:station)
+    #   subject.top_up 5
+    #   subject.touch_in(station)
+    # end
+
   end
 
-  describe '#touch_out' do
-    it "Ends a journey" do
-      subject.top_up 5
-      subject.touch_in("Kings Cross")
-      subject.touch_out station
-      expect(subject.in_journey).to eq false
-    end
+  # describe '#touch_out' do
+  #   it "Ends a journey" do
+  #     subject.top_up 5
+  #     subject.touch_in("Kings Cross")
+  #     subject.touch_out "Hammersmith"
+  #     expect(subject.in_journey).to eq false
+  #   end
 
-    it 'deducts the fare from the balance (£1) after a journey' do
-      subject.top_up 5
-      subject.touch_in("Kings Cross")
-      expect{ subject.touch_out station }.to change{ subject.balance }.by (-Oystercard::MINUMUM_CHARGE)
-    end
-  end
+  #   it 'deducts the fare from the balance (£1) after a journey' do
+  #     subject.top_up 5
+  #     subject.touch_in("Kings Cross")
+  #     expect{ subject.touch_out station }.to change{ subject.balance }.by (-Oystercard::MINUMUM_CHARGE)
+  #   end
+  # end
 
   describe '#all_journeys' do
     it "stores all journeys" do
       subject.top_up 5
       subject.touch_in "Kings Cross"
       subject.touch_out "Hammersmith"
-      expect(subject.all_journeys(1)).to eq ["Kings Cross", "Hammersmith"]
+      expect(subject.all_journeys).to eq ([{"Kings Cross" => "Hammersmith"}])
     end
   end
-
-end
-
-describe Station do
-
-  # let(:name){ double :name } 
-  # let(:zone){ double :zone } 
-  it "creates a new instance of station" do
-    expect(Station.new("Kings Cross", "1").name).to eq "Kings Cross"
-    expect(Station.new("Kings Cross", 1).zone).to eq 1
-  end
-
 
 end
