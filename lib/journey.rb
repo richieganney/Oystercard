@@ -1,6 +1,6 @@
 class Journey
 
-  attr_reader :stored_journeys
+#   attr_reader :all_journeys
 
   def initialize
     @in_journey = false  
@@ -15,8 +15,12 @@ class Journey
     @in_journey = false
   end
 
-  def store_journey
-    @all_journeys << @journey
+  def all_journeys
+    @all_journeys
+  end
+
+  def in_journey
+    @in_journey
   end
 
 end
